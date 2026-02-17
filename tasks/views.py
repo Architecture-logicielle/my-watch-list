@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from .forms import ShowForm, TaskForm
 from .models import Task, Show
 import requests
 
+
 # ============================================================
-# 🔵 PARTIE 1 — ANCIENNES VUES (TO DO LIST)
+# 🔵 PARTIE 1 — TO DO LIST
 # ============================================================
 
 def index(request):
@@ -17,14 +20,13 @@ def index(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('/')
+            return redirect('/')
 
-    context = {'tasks': tasks, 'form': form}
-    return render(request, 'tasks/list.html', context)
+    return render(request, 'tasks/list.html', {'tasks': tasks, 'form': form})
 
 
 def updateTask(request, pk):
-    task = Task.objects.get(id=pk)
+    task = get_object_or_404(Task, id=pk)
     form = TaskForm(instance=task)
 
     if request.method == "POST":
@@ -33,51 +35,79 @@ def updateTask(request, pk):
             form.save()
             return redirect('/')
 
-    context = {'form': form}
-    return render(request, 'tasks/update_task.html', context)
+    return render(request, 'tasks/update_task.html', {'form': form})
 
 
 def deleteTask(request, pk):
-    item = Task.objects.get(id=pk)
+    task = get_object_or_404(Task, id=pk)
 
     if request.method == "POST":
-        item.delete()
+        task.delete()
         return redirect('/')
 
-    context = {'item': item}
-    return render(request, 'tasks/delete.html', context)
+    return render(request, 'tasks/delete.html', {'item': task})
 
 
 # ============================================================
-# 🔴 PARTIE 2 — WATCHLIST + TMDB
+# 🔴 PARTIE 2 — AUTHENTIFICATION
+# ============================================================
+
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect("watchlist")
+
+        return render(request, "auth/login.html", {"error": "Identifiants invalides"})
+
+    return render(request, "auth/login.html")
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("login")
+
+
+def register_user(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        if User.objects.filter(username=username).exists():
+            return render(request, "auth/register.html", {"error": "Nom déjà utilisé"})
+
+        user = User.objects.create_user(username=username, password=password)
+        login(request, user)
+        return redirect("watchlist")
+
+    return render(request, "auth/register.html")
+
+
+# ============================================================
+# 🔴 PARTIE 3 — WATCHLIST + TMDB
 # ============================================================
 
 TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNDViZTcxYzc5MDc2NzBmMjNlODlkYTM3ODE3ZTJmMiIsIm5iZiI6MTc3MTMxNjA1My41ODA5OTk5LCJzdWIiOiI2OTk0MjM1NWM1MDllNTVjMmMxMjRlMWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8AsMFiuYj4xQyJg9uOV2Nn9dfw84pUQHO4SqpEg3HUw"
 BASE_URL = "https://api.themoviedb.org/3/discover/tv"
+HEADERS = {"Authorization": f"Bearer {TMDB_TOKEN}"}
 
-HEADERS = {
-    "Authorization": f"Bearer {TMDB_TOKEN}"
-}
 
 # -----------------------------
-# PAGE PRINCIPALE : WATCHLIST
+# PAGE WATCHLIST
 # -----------------------------
+@login_required
 def watchlist(request):
-    shows = Show.objects.all()
-    form = ShowForm()
-
-    if request.method == "POST":
-        form = ShowForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect("watchlist")
-
-    context = {"shows": shows, "form": form}
-    return render(request, "tasks/list.html", context)
+    shows = Show.objects.filter(user=request.user)
+    return render(request, "tasks/list.html", {"shows": shows})
 
 
 # -----------------------------
-# FONCTION UTILITAIRE TMDB
+# FONCTION TMDB
 # -----------------------------
 def fetch_tmdb_shows(provider_id, page):
     params = {
@@ -86,13 +116,18 @@ def fetch_tmdb_shows(provider_id, page):
         "sort_by": "vote_average.desc",
         "page": page
     }
+
     response = requests.get(BASE_URL, headers=HEADERS, params=params)
-    return response.json().get("results", [])
+
+    if response.status_code == 200:
+        return response.json().get("results", [])
+    return []
 
 
 # -----------------------------
-# FONCTION GÉNÉRIQUE ROBUSTE (Exercice 4++)
+# AJOUT SHOWS (CORRIGÉ)
 # -----------------------------
+@login_required
 def add_shows(request, provider_id, provider_name, session_key):
     page = request.session.get(session_key, 1)
 
@@ -105,32 +140,41 @@ def add_shows(request, provider_id, provider_name, session_key):
         attempts += 1
 
         for show in data:
-            tmdb_id = show["id"]
-            title = show["name"]
+            tmdb_id = show.get("id")
+            title = show.get("name", "Unknown title")
+            poster_path = show.get("poster_path")  # ✅ CORRECTION
 
-            if not Show.objects.filter(tmdb_id=tmdb_id).exists():
+            if not Show.objects.filter(tmdb_id=tmdb_id, user=request.user).exists():
                 Show.objects.create(
                     title=title,
                     tmdb_id=tmdb_id,
-                    provider=provider_name
+                    provider=provider_name,
+                    poster_path=poster_path,  # ✅ SAUVEGARDE IMAGE
+                    user=request.user
                 )
                 added += 1
 
-        # Si aucune série ajoutée, on continue automatiquement à la page suivante
+            if added >= 10:
+                break
 
     request.session[session_key] = page
     return redirect("watchlist")
 
 
 # -----------------------------
-# PROVIDERS TMDB
+# PROVIDERS
 # -----------------------------
+@login_required
 def add_netflix_shows(request):
     return add_shows(request, 8, "Netflix", "netflix_page")
 
+
+@login_required
 def add_prime_shows(request):
     return add_shows(request, 119, "Prime Video", "prime_page")
 
+
+@login_required
 def add_apple_shows(request):
     return add_shows(request, 350, "Apple TV", "apple_page")
 
@@ -138,8 +182,9 @@ def add_apple_shows(request):
 # -----------------------------
 # CRUD WATCHLIST
 # -----------------------------
+@login_required
 def update_show(request, pk):
-    show = Show.objects.get(id=pk)
+    show = get_object_or_404(Show, id=pk, user=request.user)
     form = ShowForm(instance=show)
 
     if request.method == "POST":
@@ -151,8 +196,9 @@ def update_show(request, pk):
     return render(request, "tasks/update_task.html", {"form": form})
 
 
+@login_required
 def delete_show(request, pk):
-    show = Show.objects.get(id=pk)
+    show = get_object_or_404(Show, id=pk, user=request.user)
 
     if request.method == "POST":
         show.delete()

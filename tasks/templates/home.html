@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>My Watchlist</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #F2FAFB;
+            --card: #FFFFFF;
+            --primary: #6C63FF;
+            --accent: #00A8CC;
+            --text: #4A4E69;
+            --muted: #7A869A;
+            --shadow: 0 15px 35px rgba(0,0,0,0.08);
+            --radius: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ================= HEADER ================= */
+        header {
+            background: linear-gradient(135deg, #F0FBFF, #EAF7F2);
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-weight: 700;
+            color: var(--text);
+            padding: 10px 18px;
+            border-radius: 999px;
+            transition: 0.2s ease;
+        }
+
+        nav a:hover {
+            background: rgba(108,99,255,0.12);
+            color: var(--primary);
+        }
+
+        .nav-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white !important;
+        }
+
+        .nav-primary:hover {
+            opacity: 0.9;
+        }
+
+        /* ================= MAIN ================= */
+        main {
+            min-height: calc(100vh - 90px);
+            padding: 40px 20px;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎬 My Watchlist</h1>
+
+    <nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'watchlist' %}" class="nav-primary">Ma Watchlist</a>
+            <a href="{% url 'logout' %}">Déconnexion</a>
+        {% else %}
+            <a href="{% url 'login' %}">Connexion</a>
+            <a href="{% url 'register' %}" class="nav-primary">Créer un compte</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    © {{ year|default:2025 }} My Watchlist — Built with ❤️
+</footer>
+
+</body>
+</html>

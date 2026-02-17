@@ -19,6 +19,7 @@ body {
 
 /* HERO HEADER */
 .netflix-header {
+    position: relative;
     text-align: center;
     padding: 80px 20px 50px;
     background: linear-gradient(135deg, #F0FBFF, #EAF7F2);
@@ -35,6 +36,29 @@ body {
     color: var(--muted);
     max-width: 700px;
     margin: auto;
+}
+
+/* LOGOUT BUTTON */
+.top-actions {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+}
+
+.logout-btn {
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    background: #FFEAEA;
+    color: #E50914;
+    transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #E50914;
+    color: #FFFFFF;
 }
 
 /* CONTAINER */
@@ -66,7 +90,6 @@ body {
     transition: 0.2s;
 }
 
-/* couleurs pills */
 .provider-buttons form:nth-child(1) button {
     background: #FFE3E3;
     color: #E50914;
@@ -107,7 +130,15 @@ body {
     box-shadow: 0 25px 50px rgba(0,0,0,0.15);
 }
 
-/* Provider badge top */
+/* POSTER */
+.poster-img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+
+/* PROVIDER */
 .show-provider {
     font-size: 13px;
     font-weight: 700;
@@ -116,7 +147,6 @@ body {
     text-transform: uppercase;
 }
 
-/* Provider colors */
 .show-provider[data-provider="Netflix"] { color: #E50914; }
 .show-provider[data-provider="Prime Video"] { color: #00A8E1; }
 .show-provider[data-provider="Apple TV"] { color: black; }
@@ -152,22 +182,25 @@ body {
     color: #FF6B6B;
     cursor: pointer;
 }
+
 .btn-delete:hover {
     opacity: 1;
 }
-
 </style>
-
 
 <!-- HEADER -->
 <div class="netflix-header">
+
+    <div class="top-actions">
+        <a href="{% url 'logout' %}" class="logout-btn">Déconnexion</a>
+    </div>
+
     <h1>MY WATCHLIST</h1>
     <p>Track your favorite shows and movies across all platforms in one beautiful space.</p>
 </div>
 
 <div class="content-container">
 
-    <!-- Boutons TMDB -->
     <div class="provider-buttons">
         <form method="POST" action="{% url 'add_netflix_shows' %}">
             {% csrf_token %}
@@ -185,18 +218,21 @@ body {
         </form>
     </div>
 
-    <!-- Grille -->
     <div class="show-grid">
         {% for show in shows %}
-            <div class="show-card">
-                <div class="show-provider" data-provider="{{ show.provider }}">{{ show.provider }}</div>
-                <div class="show-title">{{ show.title }}</div>
+        <div class="show-card">
+            {% if show.poster_path %}
+                <img class="poster-img" src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}" alt="{{ show.title }}">
+            {% endif %}
 
-                <div class="action-buttons">
-                    <a class="btn-update" href="{% url 'update_show' show.id %}">Update</a>
-                    <a class="btn-delete" href="{% url 'delete_show' show.id %}">✕</a>
-                </div>
+            <div class="show-provider" data-provider="{{ show.provider }}">{{ show.provider }}</div>
+            <div class="show-title">{{ show.title }}</div>
+
+            <div class="action-buttons">
+                <a class="btn-update" href="{% url 'update_show' show.id %}">Update</a>
+                <a class="btn-delete" href="{% url 'delete_show' show.id %}">✕</a>
             </div>
+        </div>
         {% endfor %}
     </div>
 
