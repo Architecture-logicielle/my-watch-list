@@ -2,11 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+
 
 from .forms import ShowForm, TaskForm
 from .models import Task, Show
 import requests
 import uuid
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
 
 
 
@@ -126,16 +134,13 @@ def fc_login(request):
 
     return redirect(authorize_url)
 
-    return redirect(authorize_url)
-
-
 # -----------------------------
 # 2) Callback FranceConnect
 # -----------------------------
 def fc_callback(request):
     code = request.GET.get("code")
 
-    # Échange du code contre un token
+    # 1) Échange du code contre un token
     token_response = requests.post(
         f"{FC_BASE}/token",
         data={
@@ -149,7 +154,7 @@ def fc_callback(request):
 
     access_token = token_response.get("access_token")
 
-    # Récupération des infos utilisateur
+    # 2) Récupération des infos utilisateur
     userinfo = requests.get(
         f"{FC_BASE}/userinfo",
         headers={"Authorization": f"Bearer {access_token}"}
@@ -157,13 +162,16 @@ def fc_callback(request):
 
     sub = userinfo.get("sub")  # identifiant unique FranceConnect
 
-    # Création automatique du compte si nécessaire
-    user, created = User.objects.get_or_create(
-        username=sub,
-        defaults={"password": User.objects.make_random_password()}
-    )
+    # 3) Création automatique du compte si nécessaire
+    user, created = User.objects.get_or_create(username=sub)
 
-    # Connexion automatique
+    if created:
+        import secrets
+        random_password = secrets.token_urlsafe(16)
+        user.set_password(random_password)
+        user.save()
+
+    # 4) Connexion automatique
     login(request, user)
 
     return redirect("watchlist")
@@ -180,7 +188,86 @@ def fc_logout(request):
     )
     return redirect(logout_url)
 
+# ============================================================
+# 🔵 PARTIE 2 TER — GOOGLE OAUTH2 (Exercice 7)
+# ============================================================
 
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = "http://localhost:3000/google/callback"
+
+GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
+GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo"
+
+# -----------------------------
+# 1) Redirection vers Google
+# -----------------------------
+def google_login(request):
+    state = uuid.uuid4().hex
+    request.session["google_state"] = state
+
+    auth_url = (
+        f"{GOOGLE_AUTH_URL}?"
+        f"client_id={GOOGLE_CLIENT_ID}&"
+        f"redirect_uri={GOOGLE_REDIRECT_URI}&"
+        f"response_type=code&"
+        f"scope=openid%20email%20profile&"
+        f"state={state}"
+    )
+
+    return redirect(auth_url)
+
+
+# -----------------------------
+# 2) Callback Google
+# -----------------------------
+def google_callback(request):
+    code = request.GET.get("code")
+    state = request.GET.get("state")
+
+    # Vérification du state
+    if state != request.session.get("google_state"):
+        return HttpResponse("Erreur de sécurité : state invalide", status=400)
+
+    # 1) Échange du code contre un token
+    token_response = requests.post(
+        GOOGLE_TOKEN_URL,
+        data={
+            "code": code,
+            "client_id": GOOGLE_CLIENT_ID,
+            "client_secret": GOOGLE_CLIENT_SECRET,
+            "redirect_uri": GOOGLE_REDIRECT_URI,
+            "grant_type": "authorization_code",
+        }
+    ).json()
+
+    access_token = token_response.get("access_token")
+
+    # 2) Récupération des infos utilisateur
+    userinfo = requests.get(
+        GOOGLE_USERINFO_URL,
+        headers={"Authorization": f"Bearer {access_token}"}
+    ).json()
+
+    google_id = userinfo.get("sub")  # identifiant unique Google
+
+    # 3) Création automatique du compte
+    user, created = User.objects.get_or_create(
+        username=f"google_{google_id}"
+    )
+
+    if created:
+        import secrets
+        random_password = secrets.token_urlsafe(16)
+        user.set_password(random_password)
+        user.save()
+
+    # 4) Connexion automatique
+    login(request, user)
+
+    return redirect("watchlist")
 # ============================================================
 # 🔴 PARTIE 3 — WATCHLIST + TMDB
 # ============================================================

@@ -12,8 +12,10 @@ urlpatterns = [
 
     # Authentification FranceConnect
     path('franceconnect/login/', views.fc_login, name="fc_login"),
-    path('franceconnect/callback/', views.fc_callback, name="fc_callback"),
+    path('callback/', views.fc_callback, name="fc_callback"),
     path('franceconnect/logout/', views.fc_logout, name="fc_logout"),
+
+   # Authentification Google
 
     # Actions TMDB
     path('add-netflix/', views.add_netflix_shows, name="add_netflix_shows"),
@@ -23,4 +25,8 @@ urlpatterns = [
     # CRUD sur les séries
     path('update/<str:pk>/', views.update_show, name="update_show"),
     path('delete/<str:pk>/', views.delete_show, name="delete_show"),
+    #Connexion Google
+    path("google/login/", views.google_login, name="google_login"),
+    path("google/callback", views.google_callback, name="google_callback"),
+
 ]

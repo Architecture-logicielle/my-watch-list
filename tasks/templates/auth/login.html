@@ -2,52 +2,122 @@
 
 {% block content %}
 <style>
-.auth-container {
-    max-width: 420px;
-    margin: 110px auto;
-    background: #FFFFFF;
-    padding: 45px 40px;
-    border-radius: 26px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-    text-align: center;
+
+/* FOND */
+body {
+    background: linear-gradient(135deg, #B39DDB, #9FA8DA);
+    min-height: 100vh;
 }
 
-/* TITRES */
-.auth-container h2 {
-    font-size: 34px;
+/* WRAPPER */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CARTE PRINCIPALE */
+.auth-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 900px;
+    max-width: 95%;
+    background: white;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.2);
+    animation: fadeUp 0.8s ease forwards;
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* PANNEAU GAUCHE */
+.auth-left {
+    background: linear-gradient(135deg, #4F46E5, #00A8CC);
+    color: white;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-left h2 {
+    font-size: 38px;
     font-weight: 800;
-    color: #4A4E69;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+.auth-left p {
+    font-size: 16px;
+    opacity: 0.9;
+    line-height: 1.6;
+    max-width: 320px;
+}
+
+.auth-left .cta {
+    margin-top: 35px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-weight: 700;
+    width: fit-content;
+}
+
+/* PANNEAU DROIT */
+.auth-right {
+    padding: 60px 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* TITRE */
+.auth-right h3 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #2F3349;
+    margin-bottom: 10px;
 }
 
 .subtitle {
-    font-size: 15px;
+    font-size: 14px;
     color: #7A869A;
     margin-bottom: 35px;
 }
 
 /* FORM */
-.auth-container form {
+.auth-right form {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.auth-container input {
+.auth-right input {
     padding: 15px 18px;
     border-radius: 14px;
     border: 1px solid #E3E8F0;
     font-size: 15px;
-    transition: 0.25s ease;
 }
 
-.auth-container input:focus {
-    border-color: #6C63FF;
-    box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+.auth-right input:focus {
     outline: none;
+    border-color: #6C63FF;
+    box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
 }
 
-/* BOUTONS */
+/* BOUTON LOGIN */
 .btn-primary {
     margin-top: 10px;
     padding: 15px;
@@ -58,12 +128,12 @@
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: 0.25s ease;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
 
 /* SEPARATEUR */
@@ -71,8 +141,8 @@
     display: flex;
     align-items: center;
     margin: 30px 0;
-    color: #7A869A;
     font-size: 13px;
+    color: #9AA4B2;
 }
 
 .divider::before,
@@ -80,40 +150,43 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: #E3E8F0;
+    background: #E6ECF3;
 }
 
 .divider span {
     margin: 0 15px;
 }
 
-/* FRANCE CONNECT */
-.btn-fc {
-    width: 100%;
-    padding: 15px;
-    border-radius: 16px;
-    border: none;
-    background: #0053B3;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.25s ease;
+/* SOCIAL */
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.btn-fc:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-}
-
-/* ERREUR */
-.error {
-    background: #FFEAEA;
-    color: #D32F2F;
+.social-btn {
     padding: 14px;
     border-radius: 14px;
-    font-size: 14px;
-    margin-bottom: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid #E6EAF0;
+    transition: 0.25s ease;
+}
+
+.social-btn.fc {
+    background: #F0F4FA;
+    color: #0053B3;
+}
+
+.social-btn.google {
+    background: white;
+    color: #DB4437;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
 }
 
 /* FOOTER */
@@ -129,37 +202,58 @@
     text-decoration: none;
 }
 
-.switch-link a:hover {
-    text-decoration: underline;
-}
 </style>
 
-<div class="auth-container">
+<div class="auth-wrapper">
 
-    <h2>Connexion</h2>
-    <p class="subtitle">Accède à ta watchlist personnalisée</p>
+    <div class="auth-card">
 
-    {% if error %}
-        <div class="error">{{ error }}</div>
-    {% endif %}
+        <!-- GAUCHE -->
+        <div class="auth-left">
+            <h2>Hello, welcome 👋</h2>
+            <p>
+                Gère ta watchlist, découvre de nouvelles séries
+                et garde tout au même endroit.
+            </p>
+            <div class="cta">My Watchlist</div>
+        </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" name="password" placeholder="Mot de passe" required>
-        <button type="submit" class="btn-primary">Se connecter</button>
-    </form>
+        <!-- DROITE -->
+        <div class="auth-right">
 
-    <div class="divider"><span>ou</span></div>
+            <h3>Connexion</h3>
+            <p class="subtitle">Accède à ton espace personnel</p>
 
-    <a href="{% url 'fc_login' %}">
-        <button class="btn-fc">Se connecter avec FranceConnect</button>
-    </a>
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
 
-    <p class="switch-link">
-        Pas encore de compte ?
-        <a href="{% url 'register' %}">Créer un compte</a>
-    </p>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+                <input type="password" name="password" placeholder="Mot de passe" required>
+                <button class="btn-primary">Se connecter</button>
+            </form>
+
+            <div class="divider"><span>ou</span></div>
+
+            <div class="social-login">
+                <a href="{% url 'fc_login' %}" class="social-btn fc">
+                    FranceConnect
+                </a>
+                <a href="{% url 'google_login' %}" class="social-btn google">
+                    Google
+                </a>
+            </div>
+
+            <p class="switch-link">
+                Pas encore de compte ?
+                <a href="{% url 'register' %}">Créer un compte</a>
+            </p>
+
+        </div>
+
+    </div>
 
 </div>
 {% endblock %}

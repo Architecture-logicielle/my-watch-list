@@ -1,0 +1,26 @@
+[33mb66dbaa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m)[m correctif : retrait des secrets OAuth et utilisation du fichier .env
+[33m510b0b1[m fix(auth): correction du flux FranceConnect, remplacement de make_random_password, ajout de set_password et ajustement du redirect_uri
+[33m8dc3658[m fix(auth): correction du flux FranceConnect, remplacement de make_random_password, ajout de set_password et ajustement du redirect_uri
+[33m071cb96[m feat(auth): ajout de l'authentification Google OAuth2
+[33ma5451d1[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m feat(auth): intégration FranceConnect v1 avec state/nonce et callback sécurisé
+[33me74274b[m feat(watchlist): ajout des images TMDB + authentification + UI pastel
+[33mf7e6d5a[m feat(watchlist): implement robust TMDB pagination and duplicate-safe provider import
+[33mbfa0c3b[m feat(watchlist): add robust TMDB pagination and fix duplicate handling
+[33m569c986[m feat(watchlist): add robust TMDB pagination and fix duplicate handling
+[33m797a0eb[m feat(watchlist): clean DB, fix provider logic and update pastel UI
+[33m73578e0[m docs: add TMDB Postman collection for exercise 2
+[33m6fbce3c[m feat: initialize my-watch-list project with pipenv and run base Django app
+[33m93d4c30[m build: update Django to version 6
+[33m4b97211[m tests: added tests in app
+[33m728b5e6[m Delete db.sqlite3
+[33m5889562[m fix: added missing file in migrations folder
+[33m1e66c62[m Add files via upload
+[33m67a1960[m Add files via upload
+[33m05ee7fd[m Add files via upload
+[33mfe9125f[m Add files via upload
+[33m26affe9[m Add files via upload
+[33m926eadc[m Add files via upload
+[33ma60cc83[m Update README.md
+[33m501be9a[m Add files via upload
+[33m8429228[m Update README.md
+[33mb45930d[m Initial commit
