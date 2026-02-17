@@ -1,0 +1,206 @@
+{
+  "info": {
+    "_postman_id": "b4b88803-1389-49e2-aff4-53096ee074df",
+    "name": "TDMB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "41792704"
+  },
+  "item": [
+    {
+      "name": "https://api.themoviedb.org/3/discover/tv",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNDViZTcxYzc5MDc2NzBmMjNlODlkYTM3ODE3ZTJmMiIsIm5iZiI6MTc3MTMxNjA1My41ODA5OTk5LCJzdWIiOiI2OTk0MjM1NWM1MDllNTVjMmMxMjRlMWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8AsMFiuYj4xQyJg9uOV2Nn9dfw84pUQHO4SqpEg3HUw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/discover/tv?with_genres=10759&sort_by=vote_average.desc&page=1\n",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "discover",
+            "tv"
+          ],
+          "query": [
+            {
+              "key": "with_genres",
+              "value": "10759"
+            },
+            {
+              "key": "sort_by",
+              "value": "vote_average.desc"
+            },
+            {
+              "key": "page",
+              "value": "1\n"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetNetflix",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNDViZTcxYzc5MDc2NzBmMjNlODlkYTM3ODE3ZTJmMiIsIm5iZiI6MTc3MTMxNjA1My41ODA5OTk5LCJzdWIiOiI2OTk0MjM1NWM1MDllNTVjMmMxMjRlMWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8AsMFiuYj4xQyJg9uOV2Nn9dfw84pUQHO4SqpEg3HUw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/discover/tv?with_watch_providers=8&watch_region=FR&sort_by=vote_average.desc&page=1\n\n",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "discover",
+            "tv"
+          ],
+          "query": [
+            {
+              "key": "with_watch_providers",
+              "value": "8"
+            },
+            {
+              "key": "watch_region",
+              "value": "FR"
+            },
+            {
+              "key": "sort_by",
+              "value": "vote_average.desc"
+            },
+            {
+              "key": "page",
+              "value": "1\n\n"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAmazon",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNDViZTcxYzc5MDc2NzBmMjNlODlkYTM3ODE3ZTJmMiIsIm5iZiI6MTc3MTMxNjA1My41ODA5OTk5LCJzdWIiOiI2OTk0MjM1NWM1MDllNTVjMmMxMjRlMWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8AsMFiuYj4xQyJg9uOV2Nn9dfw84pUQHO4SqpEg3HUw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/discover/tv?with_watch_providers=119&watch_region=FR&sort_by=vote_average.desc&page=1\n\n",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "discover",
+            "tv"
+          ],
+          "query": [
+            {
+              "key": "with_watch_providers",
+              "value": "119"
+            },
+            {
+              "key": "watch_region",
+              "value": "FR"
+            },
+            {
+              "key": "sort_by",
+              "value": "vote_average.desc"
+            },
+            {
+              "key": "page",
+              "value": "1\n\n"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetApple",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNDViZTcxYzc5MDc2NzBmMjNlODlkYTM3ODE3ZTJmMiIsIm5iZiI6MTc3MTMxNjA1My41ODA5OTk5LCJzdWIiOiI2OTk0MjM1NWM1MDllNTVjMmMxMjRlMWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8AsMFiuYj4xQyJg9uOV2Nn9dfw84pUQHO4SqpEg3HUw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/discover/tv?with_watch_providers=350&watch_region=FR&sort_by=vote_average.desc&page=1\n",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "discover",
+            "tv"
+          ],
+          "query": [
+            {
+              "key": "with_watch_providers",
+              "value": "350"
+            },
+            {
+              "key": "watch_region",
+              "value": "FR"
+            },
+            {
+              "key": "sort_by",
+              "value": "vote_average.desc"
+            },
+            {
+              "key": "page",
+              "value": "1\n"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
