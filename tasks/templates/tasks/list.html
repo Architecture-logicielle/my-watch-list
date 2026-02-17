@@ -1,73 +1,203 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <style>
+:root {
+    --bg: #F2FAFB;
+    --card: #FFFFFF;
+    --text: #4A4E69;
+    --muted: #7A869A;
+    --radius: 20px;
+    --shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
 
-	body{
-		background-color: #3a86ff;
-	}
+/* GLOBAL */
+body {
+    background: var(--bg);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: var(--text);
+}
 
-	input{
-		width: 100%;
-		padding: 12px 20px;
-		margin: 8px 0;
-		box-sizing: border-box;
-	}
+/* HERO HEADER */
+.netflix-header {
+    text-align: center;
+    padding: 80px 20px 50px;
+    background: linear-gradient(135deg, #F0FBFF, #EAF7F2);
+}
 
-	input::placeholder {
-	  color: #d3d3d3;
-	}
+.netflix-header h1 {
+    font-size: 56px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
 
-	.submit{
-		background-color: #6BA3E8;
-	}
+.netflix-header p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 700px;
+    margin: auto;
+}
 
-	.center-column{
-		width:600px;
-		margin: 20px auto;
-		padding:20px;
-		background-color: #fff;
-		border-radius: 3px;
-		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
-	}
+/* CONTAINER */
+.content-container {
+    width: 90%;
+    max-width: 1300px;
+    margin: 40px auto;
+}
 
-	.item-row{
-		background-color: #8338ec;
-		margin: 10px;
-		padding: 20px;
-		border-radius: 3px;
-		color: #fff;
-		font-size: 16px;
-		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
-	}
+/* TOOLBAR */
+.provider-buttons {
+    background: #F8FCFD;
+    border-radius: 25px;
+    padding: 25px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    box-shadow: var(--shadow);
+}
 
-	.btn-danger{
-		background-color: #ffbe0b;
-		border-color: #e59400;
-	}
+.provider-buttons button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+/* couleurs pills */
+.provider-buttons form:nth-child(1) button {
+    background: #FFE3E3;
+    color: #E50914;
+}
+
+.provider-buttons form:nth-child(2) button {
+    background: #E6F6FF;
+    color: #00A8E1;
+}
+
+.provider-buttons form:nth-child(3) button {
+    background: #000;
+    color: white;
+}
+
+.provider-buttons button:hover {
+    transform: translateY(-3px);
+}
+
+/* GRID */
+.show-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 35px;
+}
+
+/* CARD */
+.show-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow);
+    transition: 0.25s ease;
+}
+
+.show-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+/* Provider badge top */
+.show-provider {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Provider colors */
+.show-provider[data-provider="Netflix"] { color: #E50914; }
+.show-provider[data-provider="Prime Video"] { color: #00A8E1; }
+.show-provider[data-provider="Apple TV"] { color: black; }
+
+.show-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* ACTIONS */
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-update {
+    background: #EAF7F2;
+    color: #2E7D32;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.btn-delete {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    opacity: 0.7;
+    color: #FF6B6B;
+    cursor: pointer;
+}
+.btn-delete:hover {
+    opacity: 1;
+}
 
 </style>
-<h1 style="text-align: center; color: #fb5607; font-size: 125px;        text-shadow: -10px 0 black, 0 10px black, 10px 0 black, 0 -10px black;
 
-"><b>TO DO LIST</b></h1>
-<div  class="center-column">
-	<form method="POST" action="/">
-		{% csrf_token %}
-		{{form.title}}
-		<input class="btn btn-info" type="submit" name="Create Task">
-	</form>
 
-	<div class="todo-list">
-	{% for task in tasks %}
-		<div class="item-row">
-			<a class="btn btn-sm btn-info" href = "{% url 'update_task' task.id %}">Update</a>
-			<a class="btn btn-sm btn-danger" href = "{% url 'delete' task.id %}">Delete</a>
-			{% if task.complete == True %}
-			<strike>{{task}}</strike>
-			{% else %}
-			<span>{{task}}</span>
-			{% endif %}
+<!-- HEADER -->
+<div class="netflix-header">
+    <h1>MY WATCHLIST</h1>
+    <p>Track your favorite shows and movies across all platforms in one beautiful space.</p>
+</div>
 
-		</div>
-	{% endfor %}
-	</div>
+<div class="content-container">
+
+    <!-- Boutons TMDB -->
+    <div class="provider-buttons">
+        <form method="POST" action="{% url 'add_netflix_shows' %}">
+            {% csrf_token %}
+            <button>+ 10 Netflix</button>
+        </form>
+
+        <form method="POST" action="{% url 'add_prime_shows' %}">
+            {% csrf_token %}
+            <button>+ 10 Prime Video</button>
+        </form>
+
+        <form method="POST" action="{% url 'add_apple_shows' %}">
+            {% csrf_token %}
+            <button>+ 10 Apple TV</button>
+        </form>
+    </div>
+
+    <!-- Grille -->
+    <div class="show-grid">
+        {% for show in shows %}
+            <div class="show-card">
+                <div class="show-provider" data-provider="{{ show.provider }}">{{ show.provider }}</div>
+                <div class="show-title">{{ show.title }}</div>
+
+                <div class="action-buttons">
+                    <a class="btn-update" href="{% url 'update_show' show.id %}">Update</a>
+                    <a class="btn-delete" href="{% url 'delete_show' show.id %}">✕</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 </div>
