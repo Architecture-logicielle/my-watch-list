@@ -2,94 +2,140 @@
 
 {% block content %}
 <style>
-    .auth-container {
-        max-width: 420px;
-        margin: 100px auto;
-        background: #FFFFFF;
-        padding: 40px 35px;
-        border-radius: 22px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        text-align: center;
-    }
+.auth-container {
+    max-width: 420px;
+    margin: 110px auto;
+    background: #FFFFFF;
+    padding: 45px 40px;
+    border-radius: 26px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+    text-align: center;
+}
 
-    .auth-container h2 {
-        font-size: 32px;
-        font-weight: 800;
-        margin-bottom: 10px;
-        color: #4A4E69;
-    }
+/* TITRES */
+.auth-container h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: #4A4E69;
+    margin-bottom: 8px;
+}
 
-    .auth-container .subtitle {
-        font-size: 15px;
-        color: #7A869A;
-        margin-bottom: 30px;
-    }
+.subtitle {
+    font-size: 15px;
+    color: #7A869A;
+    margin-bottom: 35px;
+}
 
-    .auth-container form {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
+/* FORM */
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
 
-    .auth-container input {
-        padding: 14px 16px;
-        border-radius: 12px;
-        border: 1px solid #E3E8F0;
-        font-size: 15px;
-        outline: none;
-        transition: 0.2s;
-    }
+.auth-container input {
+    padding: 15px 18px;
+    border-radius: 14px;
+    border: 1px solid #E3E8F0;
+    font-size: 15px;
+    transition: 0.25s ease;
+}
 
-    .auth-container input:focus {
-        border-color: #6C63FF;
-        box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
-    }
+.auth-container input:focus {
+    border-color: #6C63FF;
+    box-shadow: 0 0 0 4px rgba(108,99,255,0.15);
+    outline: none;
+}
 
-    .btn-primary {
-        margin-top: 10px;
-        padding: 14px;
-        border-radius: 14px;
-        border: none;
-        background: linear-gradient(135deg, #6C63FF, #00A8CC);
-        color: white;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+/* BOUTONS */
+.btn-primary {
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #6C63FF, #00A8CC);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
 
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+}
 
-    .error {
-        background: #FFE3E3;
-        color: #D32F2F;
-        padding: 12px;
-        border-radius: 12px;
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
+/* SEPARATEUR */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+    color: #7A869A;
+    font-size: 13px;
+}
 
-    .switch-link {
-        margin-top: 25px;
-        font-size: 14px;
-        color: #7A869A;
-    }
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #E3E8F0;
+}
 
-    .switch-link a {
-        color: #6C63FF;
-        font-weight: 700;
-        text-decoration: none;
-    }
+.divider span {
+    margin: 0 15px;
+}
 
-    .switch-link a:hover {
-        text-decoration: underline;
-    }
+/* FRANCE CONNECT */
+.btn-fc {
+    width: 100%;
+    padding: 15px;
+    border-radius: 16px;
+    border: none;
+    background: #0053B3;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-fc:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+}
+
+/* ERREUR */
+.error {
+    background: #FFEAEA;
+    color: #D32F2F;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* FOOTER */
+.switch-link {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #7A869A;
+}
+
+.switch-link a {
+    color: #6C63FF;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.switch-link a:hover {
+    text-decoration: underline;
+}
 </style>
 
 <div class="auth-container">
+
     <h2>Connexion</h2>
     <p class="subtitle">Accède à ta watchlist personnalisée</p>
 
@@ -101,13 +147,19 @@
         {% csrf_token %}
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
-
         <button type="submit" class="btn-primary">Se connecter</button>
     </form>
+
+    <div class="divider"><span>ou</span></div>
+
+    <a href="{% url 'fc_login' %}">
+        <button class="btn-fc">Se connecter avec FranceConnect</button>
+    </a>
 
     <p class="switch-link">
         Pas encore de compte ?
         <a href="{% url 'register' %}">Créer un compte</a>
     </p>
+
 </div>
 {% endblock %}

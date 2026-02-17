@@ -2,13 +2,18 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Page principale : la watchlist (protégée par login_required dans views.py)
+    # Page principale : la watchlist
     path('', views.watchlist, name="watchlist"),
 
-    # Authentification
+    # Authentification interne
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
     path('register/', views.register_user, name="register"),
+
+    # Authentification FranceConnect
+    path('franceconnect/login/', views.fc_login, name="fc_login"),
+    path('franceconnect/callback/', views.fc_callback, name="fc_callback"),
+    path('franceconnect/logout/', views.fc_logout, name="fc_logout"),
 
     # Actions TMDB
     path('add-netflix/', views.add_netflix_shows, name="add_netflix_shows"),
