@@ -1,0 +1,11 @@
+# Framework web principal pour construire l'application Django
+Django==6.0.2
+
+# Bibliothèque pour effectuer des requêtes HTTP vers des APIs externes
+requests
+
+# Permet de charger les variables d'environnement depuis un fichier .env
+python-dotenv
+
+# Serveur WSGI de production pour exécuter l'application Django
+gunicorn

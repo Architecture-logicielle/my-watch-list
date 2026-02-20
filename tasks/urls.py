@@ -27,6 +27,6 @@ urlpatterns = [
     path('delete/<str:pk>/', views.delete_show, name="delete_show"),
     #Connexion Google
     path("google/login/", views.google_login, name="google_login"),
-    path("google/callback", views.google_callback, name="google_callback"),
+    path("google/callback/", views.google_callback, name="google_callback"),
 
 ]
