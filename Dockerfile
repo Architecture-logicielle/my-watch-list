@@ -22,6 +22,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# 👉 AJOUT IMPORTANT : installer psycopg2-binary
+RUN pip install psycopg2-binary
+
 # ---------------------------------------------------------
 # 5) Copier tout le code du projet dans le container
 # ---------------------------------------------------------
@@ -34,7 +37,5 @@ EXPOSE 8000
 
 # ---------------------------------------------------------
 # 7) Lancer l'application Django avec Gunicorn (production)
-#    - todo.wsgi:application = module WSGI de ton projet
 # ---------------------------------------------------------
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "todo.wsgi:application"]
-
