@@ -79,7 +79,8 @@ Application Django permettant de gérer une watchlist personnalisée, d’ajoute
 ```bash
 git clone https://github.com/Architecture-logicielle/my-watch-list.git
 cd my-watch-list
-
+---
+```
 ## 🎥 Rendus demandés
 
 ### 📝 Rendu 1
@@ -89,9 +90,6 @@ cd my-watch-list
 ### 📝 Rendu 2
 - Dépôt du code final sur GitHub
 - Vidéo démonstrative déposée dans une issue nommée **“Rendu 2”**
-
----
-
 ## 👤 Auteur
 Projet réalisé par **Syntiche Attoh**
 Master 2 — ESIEE IT
