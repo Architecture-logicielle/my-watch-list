@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-service
+spec:
+  type: ClusterIP
+  selector:
+    app: postgresql
+  ports:
+    - port: 5432
+      targetPort: 5432
+# This service exposes the PostgreSQL database to other pods within the Kubernetes cluster, allowing the watchlist application to connect to it using the service name "postgresql-service" and port 5432.
