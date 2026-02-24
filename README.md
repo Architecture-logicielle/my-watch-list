@@ -77,9 +77,9 @@ cd my-watch-list
 
 ```markdown
 ## 📸 Aperçu de l’interface
-![alt text](image-4.png)
-![alt text](image-5.png)
-![alt text](image-6.png)
+![alt text](docs/image-4.png)
+![alt text](docs/image-5.png)
+![alt text](docs/image-6.png)
 
 
 ## 🎥 Rendus demandés
