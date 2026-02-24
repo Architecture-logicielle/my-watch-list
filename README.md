@@ -75,6 +75,7 @@ Application Django permettant de gérer une watchlist personnalisée, d’ajoute
 git clone https://github.com/<ton-nom>/my-watch-list.git
 cd my-watch-list
 
+```markdown
 ## 📸 Aperçu de l’interface
 ![alt text](image-4.png)
 ![alt text](image-5.png)

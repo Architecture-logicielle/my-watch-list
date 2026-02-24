@@ -74,17 +74,18 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'watchlist',
-        'USER': 'watchuser',
-        'PASSWORD': 'watchpass',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', 'watchlist'),
+        'USER': os.getenv('DB_USER', 'watchlist_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'watchlist_password'),
+        'HOST': os.getenv('DB_HOST', 'postgresql-service'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
