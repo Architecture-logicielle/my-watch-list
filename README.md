@@ -66,6 +66,11 @@ Application Django permettant de gérer une watchlist personnalisée, d’ajoute
 - **Google OAuth2**
 - **SQLite** (par défaut)
 
+## 📸 Aperçu de l’interface
+![alt text](docs/image-4.png)
+![alt text](docs/image-5.png)
+![alt text](docs/image-6.png)
+
 ---
 
 ## 🚀 Installation & lancement
@@ -74,13 +79,6 @@ Application Django permettant de gérer une watchlist personnalisée, d’ajoute
 ```bash
 git clone https://github.com/<ton-nom>/my-watch-list.git
 cd my-watch-list
-
-```markdown
-## 📸 Aperçu de l’interface
-![alt text](docs/image-4.png)
-![alt text](docs/image-5.png)
-![alt text](docs/image-6.png)
-
 
 ## 🎥 Rendus demandés
 
